@@ -9,11 +9,11 @@ import com.TaxiProject.model.Service;
 import com.TaxiProject.model.Driver;
 import com.TaxiProject.model.Booking;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Scanner;
 /**
- * Displays all pertaining things to the Booking service for Customers and Drivers
+ * Displays all pertaining things to the Booking functionalities for Customers and Drivers
  *
  * @author Ajay
  * @version 1.0
@@ -25,18 +25,24 @@ public class BookingPage {
     private static final TransactionPage TRANSACTION_PAGE = new TransactionPage();
 
     /**
-     * Acquires Location details from the database
+     * <p>
+     *     Acquires {@link Location} details from the database.
+     * </p>
      *
-     * @return List containing Location details
+     * @return a {@link List} containing all of {@link Location} details.
+     * @see Collection
      */
     List<Location> getLocationInfo() {
         return BOOKING_CONTROLLER.getLocationInfo();
     }
 
     /**
-     * Acts as a hub and passes necessary values to the related functions
-     */
-    void bookingHub() {
+     * <p>
+     *     Inserts {@link Fare} by acquiring Customer's ID.
+     *     Also, acts as a hub and passes necessary values to the related functions.
+     * </p>
+    */
+    void openBookingHub() {
         final Customer customer = new Customer();
         final Fare fare = new Fare();
 
@@ -70,47 +76,43 @@ public class BookingPage {
         final long fareId = BOOKING_CONTROLLER.insertFareDetails(fare);
 
         fare.setId(fareId);
-        final List<ServiceFare> serviceFareList = calculateFares(distance);
+        final List<ServiceFare> serviceFareList =  BOOKING_CONTROLLER.calculateFares(distance);
         final long serviceId = acquireService(serviceFareList);
         final double totalFare = getTotalFare(serviceFareList, serviceId);
-        final long driverId = assignDriver(serviceId, pickPointId);
+        final Driver driver = getDriverAvailability(serviceId, pickPointId);
 
-        closeBooking(driverId, fare, totalFare);
+        displayDriverInfo(driver);
+        closeBooking(driver.getId(), fare, totalFare);
     }
 
     /**
-     * Acquires Service details from the database
+     * <p>
+     *     Acquires {@link Service} details from the database.
+     * </p>
      *
-     * @return List containing Service details
+     * @return a {@link List} containing all of {@link Service} details.
+     * @see Collection
      */
-    List<Service> getAllServiceInfo() {
+    List<Service> getServiceInfo() {
         return BOOKING_CONTROLLER.getServiceInfo();
     }
 
     /**
-     * Calculates the Fare using Distance and Price per KM which is acquired from Data base
+     * <p>
+     *     Displays {@link ServiceFare}'s details. Enables, Customers to choose their choice of Service.
+     * </p>
      *
-     * @param distance distance, passed from Hub which was previously entered by Customer through Scanner
-     * @return List containing Fares of different Services
-     */
-    private List<ServiceFare> calculateFares(final Double distance) {
-        return BOOKING_CONTROLLER.calculateFares(distance);
-    }
-
-    /**
-     * Iterates Service's fares and enables Customers to choose the service of their choice
-     *
-     * @param serviceFareList serviceFareList, passed from Hub
-     * @return Service choice of the Customer
+     * @param serviceFareList {@link List}, containing {@link ServiceFare} which holds each Service's fare.
+     * @return the {@link Customer}'s choice of Service, which is mandatory in assigning {@link Driver}.
      */
     private long acquireService(final List<ServiceFare> serviceFareList) {
 
         for (final ServiceFare serviceFare : serviceFareList) {
-            System.out.println(new StringBuilder().append(serviceFare.getService().getId()).append(".").
+            System.out.println(new StringBuffer().append(serviceFare.getService().getId()).append(".").
                     append(" ").append(serviceFare.getService().getName()).append(" ").
                     append(serviceFare.getBooking().getTotalFare()));
         }
-        System.out.println(new StringBuilder("Please choose a service from above!").append('\n').
+        System.out.println(new StringBuffer("Please choose a service from above!").append('\n').
                 append("Enter your choice : "));
         final long choice = INPUT.nextLong();
 
@@ -130,81 +132,70 @@ public class BookingPage {
     }
 
     /**
-     * Selects Total Fare based on the Service chosen by the Customer
+     * <p>
+     *     Determines Journey's fare based on the {@link Service} chosen by the {@link Customer}.
+     * </p>
      *
-     * @param serviceFareList serviceFareList, passed from Hub
-     * @param serviceId serviceId, passed from Hub
-     * @return Total Fare for the Journey
+     * @param serviceFareList {@link List}, containing {@link ServiceFare} which holds each {@link Service}'s fare.
+     * @param serviceId {@link Long}, indicates Customer's choice of {@link Service}.
+     * @return total fare for the Journey, being used to display to {@link Customer}.
      */
     private double getTotalFare(final List<ServiceFare> serviceFareList, final Long serviceId) {
-        final ListIterator<ServiceFare> fareIterator = serviceFareList.listIterator();
-        final double miniFare = fareIterator.next().getBooking().getTotalFare();
-        final double sedanFare = fareIterator.next().getBooking().getTotalFare();
-        final double primeFare = fareIterator.next().getBooking().getTotalFare();
 
-        if (serviceId == 1) {
-            System.out.println("Your Fare : " + miniFare);
+        for (ServiceFare serviceFare : serviceFareList) {
 
-            return miniFare;
-        } else if (serviceId == 2) {
-            System.out.println("Your Fare : " + sedanFare);
+            if (serviceId.equals(serviceFare.getService().getId())) {
+                final double totalFare = serviceFare.getBooking().getTotalFare();
 
-            return sedanFare;
-        } else if (serviceId == 3) {
-            System.out.println("Your Fare : " + primeFare);
-
-            return primeFare;
+                System.out.println("Your Fare : " + totalFare);
+            }
         }
         return 0;
     }
 
     /**
-     * Assigns a Driver based on Customer's choice of Location & Service chosen by them
-     * If driver's unavailable, reverts to booking hub
+     * <p>
+     *     Assigns a {@link Driver} based on Customer's Pick-up Location and choice of Service.
+     * </p>
      *
-     * @param serviceId serviceId, passed from the Hub
-     * @param locationId locationId, passed from the Hub
-     * @return Driver's id
+     * @param serviceId {@link Long}, determines Customer's choice of Service.
+     * @param locationId {@link Long}, determines Customer's choice of Location.
+     * @return a {@link Driver}, whose current predicaments are matching with Customer's predicaments.
      */
-    private long assignDriver(final Long serviceId, final Long locationId) {
-        final Driver driver = new Driver();
-        final Service service = new Service();
-        final Location location = new Location();
+    private Driver getDriverAvailability(final Long serviceId, final Long locationId) {
+        final Driver driver = BOOKING_CONTROLLER.getDriverAvailability(serviceId, locationId);
 
-        service.setId(serviceId);
-        location.setId(locationId);
-        driver.setService(service);
-        driver.setLocation(location);
-        final long driverId = BOOKING_CONTROLLER.assignDriver(driver);
-
-        if (driverId == 0) {
+        if (driver == null) {
             System.out.println("Driver's Currently unavailable at the requested location. Please try again! ");
-            bookingHub();
-        } else {
-            displayDriverInfo(driver);
+            openBookingHub();
         }
-        return driverId;
+        return driver;
     }
 
     /**
-     * Displays driver's info to Customers
+     * <p>
+     *     Displays {@link Driver} details to the Customer.
+     * </p>
      *
-     * @param driver Driver, passed from assignDriver function
+     * @param driver {@link Driver}, holds details mandatory for Communication.
      */
     private void displayDriverInfo(final Driver driver) {
         System.out.println("----------------------------------------------");
-        System.out.println(new StringBuilder("Driver's Contact Information : ").append('\n').append("Name : ").
+        System.out.println(new StringBuffer("Driver's Contact Information : ").append('\n').append("Name : ").
                 append(driver.getName()).append('\n').append("Mobile Number : ").append(driver.getMobileNumber()).
                 append('\n').append("Email ID : ").append(driver.getEmailId()).append('\n').
                 append("Registration Number : ").append(driver.getRegistrationNumber()));
     }
 
     /**
-     * Inserts booking then immediately proceeds to transaction Page
+     * <p>
+     *     Inserts {@link Booking}, and prints ID once successful.
+     *     Based on Customer's confirmation, updates Driver's location, then, proceeds to {@link TransactionPage}.
+     * </p>
      *
-     * @param driverId driverId, passed from Hub
-     * @param fare Fare, passed from Hub
-     * @param totalFare totalFare, passed from Hub
+     * @param driverId {@link Long}, whose driver to {@link Customer}.
+     * @param fare {@link Fare}, holds generated ID, drop {@link Location} ID.
+     * @param totalFare {@link Double}, Journey's total fare being used in Insertion.
      */
     private void closeBooking(final Long driverId, final Fare fare, final Double totalFare) {
         final Booking booking = new Booking();
@@ -218,21 +209,19 @@ public class BookingPage {
         final long bookingId = BOOKING_CONTROLLER.insertBooking(booking);
 
         System.out.println("----------------------------------------------");
-        System.out.println(new StringBuilder("Booking Confirmed!").append('\n').append("Your Booking ID is No. ").
+        System.out.println(new StringBuffer ("Booking Confirmed!").append('\n').append("Your Booking ID is No. ").
                 append(bookingId));
         System.out.println("----------------------------------------------");
         System.out.println("Your journey is completed. Please Confirm 1. Yes 2. No");
-        updateDriverId(fare.getDropPoint().getId());
-        TRANSACTION_PAGE.insertTransaction(bookingId);
-    }
+        final long choice = INPUT.nextLong();
 
-    /**
-     * Updates driver's location once the Journey ends
-     *
-     * @param locationId location ID, being wrapped
-     * @return being passed to Controller
-     */
-    long updateDriverId(final Long locationId) {
-        return BOOKING_CONTROLLER.updateDriverId(locationId);
+        if (choice == 1) {
+            BOOKING_CONTROLLER.updateDriverId(fare.getDropPoint().getId());
+            TRANSACTION_PAGE.insertTransaction(bookingId, choice);
+        } else if (choice == 2) {
+            TRANSACTION_PAGE.insertTransaction(bookingId, choice);
+        } else {
+            System.out.println("Please enter above mentioned choices only!");
+        }
     }
 }

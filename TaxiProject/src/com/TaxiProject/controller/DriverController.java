@@ -6,7 +6,7 @@ import com.TaxiProject.model.Driver;
 import java.util.Collection;
 
 /**
- * Acquired functions from DriverPage Class being passed to DriverService
+ * Acts as a Controller, manages the data's flow from View to respective Services.
  *
  * @author Ajay
  * @version 1.0
@@ -16,49 +16,58 @@ public class DriverController {
     private static final DriverServiceImpl DRIVER_SERVICE_IMPL = new DriverServiceImpl();
 
     /**
-     * Effectuates insert functionality from DriverPage Class being passed to DriverService
+     * <p>
+     *     Effectuates {@link Driver} insert functionality from view to Service.
+     * </p>
      *
-     * @param driver Driver's info being wrapped
-     * @return being passed to Service
+     * @param driver {@link Driver} holds registration number, choice of Service critical in Driver's registration.
+     * @return being passed to Service.
      */
     public long insert(final Driver driver) {
         return DRIVER_SERVICE_IMPL.insert(driver);
     }
 
     /**
-     * Effectuates getAll functionality from DriverPage Class being passed to DriverService
+     * <p>
+     *     Effectuates acquire every {@link Driver} details functionality from view to Service.
+     * </p>
      *
-     * @return being passed to service
+     * @return being passed to service.
      */
     public Collection<Driver> getAll() {
         return DRIVER_SERVICE_IMPL.getAll();
     }
 
     /**
-     * Effectuates get functionality from DriverPage Class being passed to DriverService
-     *
-     * @param id ID Number
-     * @return being passed to Service
+     * <p>
+     *     Effectuates acquire {@link Driver} details functionality from view to Service through their ID.
+     * </p>
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return being passed to Service.
      */
     public Driver get(final Long id) {
         return DRIVER_SERVICE_IMPL.get(id);
     }
 
     /**
-     * Effectuates remove functionality from DriverPage Class being passed to DriverService
+     * <p>
+     *     Effectuates remove {@link Driver} functionality from view to Service through their ID.
+     * </p>
      *
-     * @param idNumber ID number
+     * @param id {@link  Long}, critical on whose details being retrieved.
      * @return being passed to the Service
      */
-    public boolean remove(final Long idNumber) {
-        return DRIVER_SERVICE_IMPL.remove(idNumber);
+    public boolean remove(final Long id) {
+        return DRIVER_SERVICE_IMPL.remove(id);
     }
 
     /**
-     * Effectuates update functionality from DriverPage Class being passed to DriverService
+     * <p>
+     *     Effectuates update {@link Driver} functionality from view to Service through their ID.
+     * </p>
      *
-     * @param driver Driver's info being wrapped
-     * @return being passed to the Service
+     * @param driver {@link Driver}, holds updated information from Customer.
+     * @return being passed to the Service.
      */
     public boolean update(final Driver driver) {
         return DRIVER_SERVICE_IMPL.update(driver);

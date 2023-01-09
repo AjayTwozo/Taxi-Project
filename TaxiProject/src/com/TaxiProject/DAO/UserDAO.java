@@ -20,10 +20,12 @@ public class UserDAO {
     private static final DBConnection DB_CONNECTION = new DBConnection();
 
     /**
-     * Inserts User details in the respective table of our Database
+     * <p>
+     *     Inserts {@link User} details in the respective table of our Database.
+     * </p>
      *
-     * @param user User, object being unwrapped
-     * @return user's ID being returned
+     * @param user {@link User} holds all relevant personal details being unwrapped.
+     * @return a user's ID being returned
      */
     public boolean signUp(final User user) {
         final String userInsertQuery =
@@ -44,10 +46,13 @@ public class UserDAO {
     }
 
     /**
-     * Retrieves User details from the respective table of our Database when their mobile number and password matches
+     * <p>
+     *     Checks User's details from the respective table of our Database.
+     * </p>
      *
-     * @param user User, object being unwrapped
-     * @return whether user's details exists
+     *
+     * @param user {@link User} holds all relevant personal details.
+     * @return whether User's details matches.
      */
     public boolean login(final User user) {
         final String loginQuery = "SELECT name FROM service_user WHERE mobile_number = ? AND password = ?";

@@ -16,7 +16,7 @@ public interface BookingService {
 
     List<ServiceFare> calculateFares(final Double distance);
 
-    long assignDriver(final Driver driver);
+    Driver getDriverAvailability(final Long serviceId, final Long locationId);
 
     long insertBooking(final Booking booking);
     long updateDriverId(final Long locationId);

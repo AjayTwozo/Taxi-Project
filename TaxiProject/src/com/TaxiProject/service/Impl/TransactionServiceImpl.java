@@ -7,7 +7,7 @@ import com.TaxiProject.service.TransactionService;
 import java.util.List;
 
 /**
- * Enforces the TransactionService Interface class and the functionalities inside
+ * Enforces the {@link TransactionService} functionalities.
  *
  * @author Ajay
  * @version 1.0
@@ -17,28 +17,36 @@ public class TransactionServiceImpl implements TransactionService {
     private static final TransactionDAO TRANSACTION_DAO = new TransactionDAO();
 
     /**
-     * Effectuates insert functionality from TransactionController Class being passed to TransactionDAO Class
+     * <p>
+     *     Effectuates insert {@link Transaction} functionality to the Database.
+     * </p>
      *
-     * @param transaction Transaction, object being wrapped
-     * @return being passed to DAO
+     * @param transaction Transaction holds booking ID, total fare and payment mode details.
+     * @return being passed to the Database.
      */
     public long insertTransaction(final Transaction transaction) {
         return TRANSACTION_DAO.insertTransaction(transaction);
     }
 
     /**
-     * Effectuates getCustomerHistory functionality from TransactionController Class being passed to TransactionDAO Class
+     * <p>
+     *     Effectuates acquire Customer's History functionality to the Database.
+     * </p>
      *
-     * @return being passed to DAO
+     * @param customerId {@link Long}, critical on whose details being retrieved.
+     * @return being passed to the Database.
      */
     public List<Transaction> getCustomerHistory(final Long customerId) {
         return TRANSACTION_DAO.getCustomerHistory(customerId);
     }
 
     /**
-     * Effectuates getDriverHistory functionality from TransactionController Class being passed to TransactionDAO Class
+     * <p>
+     *     Effectuates acquire Driver's History functionality to the Database.
+     * </p>
      *
-     * @return being passed to DAO
+     * @param driverId {@link Long}, critical on whose details being retrieved.
+     * @return being passed to the Database.
      */
     public List<Transaction> getDriverHistory(final Long driverId) {
         return TRANSACTION_DAO.getDriverHistory(driverId);

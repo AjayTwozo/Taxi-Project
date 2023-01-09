@@ -8,7 +8,7 @@ import com.TaxiProject.service.Impl.TransactionServiceImpl;
 import java.util.List;
 
 /**
- * Acquired functions from TransactionPage Class being passed to respective Services
+ * Acts as a Controller, manages the data's flow from View to respective Services.
  *
  * @author Ajay
  * @version 1.0
@@ -19,7 +19,9 @@ public class TransactionController {
     private static final TransactionServiceImpl TRANSACTION_SERVICE_IMPL = new TransactionServiceImpl();
 
     /**
-     * Effectuates getOption functionality from TransactionPage Class being passed to PaymentOptionsService
+     * <p>
+     *     Effectuates acquire available payment options functionality from View to Service.
+     * </p>
      *
      * @return being passed to Service
      */
@@ -28,30 +30,36 @@ public class TransactionController {
     }
 
     /**
-     * Effectuates insert functionality from TransactionPage Class being passed to TransactionService
+     * <p>
+     *     Effectuates insert {@link Transaction} functionality from View to Service.
+     * </p>
      *
-     * @param transaction Transaction object being wrapped
-     * @return being passed to Service
+     * @param transaction Transaction holds booking ID, total fare and payment mode details.
+     * @return being passed to Service.
      */
     public long insertTransaction(final Transaction transaction) {
         return TRANSACTION_SERVICE_IMPL.insertTransaction(transaction);
     }
 
     /**
-     * Effectuates getCustomerHistory functionality from TransactionPage Class being passed to TransactionService
+     * <p>
+     *     Effectuates acquire Customer's History functionality from View to Service.
+     * </p>
      *
-     * @param customerId customerId object being wrapped
-     * @return being passed to Service
+     * @param customerId {@link Long}, critical on whose details being retrieved.
+     * @return being passed to Service.
      */
     public List<Transaction> getCustomerHistory(final Long customerId) {
         return TRANSACTION_SERVICE_IMPL.getCustomerHistory(customerId);
     }
 
     /**
-     * Effectuates getDriverHistory functionality from TransactionPage Class being passed to TransactionService
+     * <p>
+     *     Effectuates acquire Driver's History functionality from View to Service.
+     * </p>
      *
-     * @param driverId driverId object being wrapped
-     * @return being passed to Service
+     * @param driverId {@link Long}, critical on whose details being retrieved.
+     * @return being passed to Service.
      */
     public List<Transaction> getDriverHistory(final Long driverId) {
         return TRANSACTION_SERVICE_IMPL.getDriverHistory(driverId);

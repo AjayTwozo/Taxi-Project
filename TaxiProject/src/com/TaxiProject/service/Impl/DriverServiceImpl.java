@@ -1,13 +1,14 @@
 package com.TaxiProject.service.Impl;
 
 import com.TaxiProject.DAO.DriverDAO;
+import com.TaxiProject.model.Customer;
 import com.TaxiProject.service.DriverService;
 import com.TaxiProject.model.Driver;
 
 import java.util.Collection;
 
 /**
- * Enforces the DriverService Interface class and the functionalities inside
+ * Enforces the {@link DriverService} functionalities.
  *
  * @author Ajay
  * @version 1.0
@@ -17,50 +18,59 @@ public class DriverServiceImpl implements DriverService {
     private static final DriverDAO DRIVER_DAO = new DriverDAO();
 
     /**
-     * Effectuates insert functionality from DriverController Class being passed to DriverDAO Class
+     * <p>
+     *     Effectuates {@link Driver} insert functionality to the Database.
+     * </p>
      *
-     * @param driver, Driver being wrapped
-     * @return being passed to DAO
+     * @param driver {@link Driver} holds registration number, choice of Service critical in Driver's registration.
+     * @return being to the Database.
      */
     public long insert(final Driver driver) {
         return DRIVER_DAO.insert(driver);
     }
 
     /**
-     * Effectuates getAll functionality from DriverController Class being passed to DriverDAO Class
+     * <p>
+     *     Effectuates acquire every {@link Driver} details functionality to the Database.
+     * </p>
      *
-     * @return being passed to DAO
+     * @return being passed to the Database.
      */
     public Collection<Driver> getAll() {
         return DRIVER_DAO.getAll();
     }
 
     /**
-     * Effectuates get functionality from DriverController Class being passed to DriverDAO Class
-     *
-     * @param idNumber idNumber, being wrapped
-     * @return being passed to DAO
+     * <p>
+     *     Effectuates acquire {@link Driver} details functionality to the Database.
+     * </p>
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return being passed to the Database.
      */
-    public Driver get(final Long idNumber) {
-        return DRIVER_DAO.get(idNumber);
+    public Driver get(final Long id) {
+        return DRIVER_DAO.get(id);
     }
 
     /**
-     * Effectuates remove functionality from DriverController Class being passed to DriverDAO Class
+     * <p>
+     *     Effectuates remove {@link Driver} functionality to the Database.
+     * </p>
      *
-     * @param idNumber idNumber, being wrapped
-     * @return being passed to DAO
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return being passed to the Service
      */
-    public boolean remove(final Long idNumber) {
-        return DRIVER_DAO.remove(idNumber);
+    public boolean remove(final Long id) {
+        return DRIVER_DAO.remove(id);
     }
 
     /**
-     * Effectuates remove functionality from DriverController Class being passed to DriverDAO Class
-     * If null, acquires existing value from Get functionality
+     * <p>
+     *     Effectuates update {@link Driver} functionality to the Database.
+     *     If null, acquires existing value from Get functionality.
+     * </p>
      *
-     * @param driver, Driver being wrapped
-     * @return being passed to DAO
+     * @param driver {@link Driver}, holds updated information from Customer.
+     * @return being passed to the Database.
      */
     public boolean update(final Driver driver) {
         final Driver serviceImplDriver = get(driver.getId());

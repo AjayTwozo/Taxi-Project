@@ -26,9 +26,9 @@ public class DriverPage {
     private static final BookingPage BOOKING_PAGE = new BookingPage();
 
     /**
-     * Enables Drivers to enter their Registration Number then validated
+     * Enables Drivers to enter their Registration Number.
      *
-     * @return registration number of the user/driver
+     * @return a registration number of the {@link Driver}.
      */
     private String getRegistrationNumber() {
         System.out.print("Registration Number : ");
@@ -43,12 +43,12 @@ public class DriverPage {
     }
 
     /**
-     * Enables driver to choose their choice of Service which was retrieved from database
+     * Enables driver to choose their choice of {@link Service} being retrieved from the database.
      * 
-     * @return Driver's Service ID
+     * @return a Driver's choice of Service
      */
     private long getDriverServiceId() {
-        final List<Service> serviceList = BOOKING_PAGE.getAllServiceInfo();
+        final List<Service> serviceList = BOOKING_PAGE.getServiceInfo();
         System.out.println("Services : ");
 
         for (final Service service : serviceList) {
@@ -73,9 +73,9 @@ public class DriverPage {
     }
 
     /**
-     * Inserts Driver and passes it to the Controller
+     * Registers {@link Driver} by acquiring all necessary details.
      *
-     * @return Driver's id 
+     * @return that Driver's id
      */
     long registerDriver() {
         System.out.print("Please enter User ID : ");
@@ -111,7 +111,7 @@ public class DriverPage {
     /**
      * Acquires Driver's info from database based on their ID
      *
-     * @return Driver's info
+     * @return that {@link Driver} details.
      */
     Driver getDriver() {
         System.out.println("Enter ID Number : ");
@@ -131,7 +131,7 @@ public class DriverPage {
     }
 
     /**
-     * Acquires every Driver's info from database
+     * Acquires and displays every Driver's details from the database
      *
      * @return List containing Driver's info
      */
@@ -149,9 +149,9 @@ public class DriverPage {
     }
 
     /**
-     * Removes Driver's info from database based on their ID
+     * Removes a {@link Driver} from database based on their ID.
      *
-     * @return whether removed successfully
+     * @return whether removed successfully.
      */
     boolean removeDriver() {
         System.out.print("Enter ID Number : ");

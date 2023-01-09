@@ -28,6 +28,7 @@ public class WelcomePage {
      * @param args
      */
     public static void main(String[] args) {
+        BOOKING_PAGE.openBookingHub();
         WELCOME_PAGE.welcome();
     }
 
@@ -44,7 +45,7 @@ public class WelcomePage {
 
             switch (option) {
                 case 1 -> customerOptions();
-                case 2 -> driverOptions();
+                case 2 -> displayDriverOptions();
                 default -> {
                     System.out.println("Please enter above mentioned choices only!");
                     welcome();
@@ -83,7 +84,7 @@ public class WelcomePage {
     /**
      * Displays Customer's profile choices and enables them to perform action of their choice
      */
-    private void setProfileOptions() {
+    private void setCustomerProfileOptions() {
         int choice;
 
         try {
@@ -95,20 +96,20 @@ public class WelcomePage {
                 System.out.println("----------------------------------------------");
 
                 switch (choice) {
-                    case 1 -> CUSTOMER_PAGE.insertCustomer();
+                    case 1 -> CUSTOMER_PAGE.registerCustomer();
                     case 2 -> CUSTOMER_PAGE.updateCustomer();
                     case 3 -> CUSTOMER_PAGE.getCustomer();
                     case 4 -> CUSTOMER_PAGE.getAllCustomer();
                     case 5 -> CUSTOMER_PAGE.removeCustomer();
                     default -> {
                         System.out.println("Please enter above mentioned choices only!");
-                        setProfileOptions();
+                        setCustomerProfileOptions();
                     }
                 }
             } while (choice != 0);
         } catch (InputMismatchException exception) {
             System.out.println("Enter above mentioned choices only");
-            setProfileOptions();
+            setCustomerProfileOptions();
         }
     }
 
@@ -116,14 +117,14 @@ public class WelcomePage {
      * Forwards to Customer's booking page
      */
     private void setBookingPage() {
-        BOOKING_PAGE.bookingHub();
+        BOOKING_PAGE.openBookingHub();
     }
 
     /**
      * Forwards to Customer's booking history page
      */
     private void setCustomerBookingHistoryPage() {
-        BOOKING_HISTORY_PAGE.iterateCustomerHistory();
+        BOOKING_HISTORY_PAGE.displayCustomerHistory();
     }
 
     /**
@@ -151,12 +152,12 @@ public class WelcomePage {
 
                 switch (choice) {
                     case 1 -> setBookingPage();
-                    case 2 -> setProfileOptions();
+                    case 2 -> setCustomerProfileOptions();
                     case 3 -> setCustomerBookingHistoryPage();
                     case 4 -> setCustomerTransactionPage();
                     default -> {
                         System.out.println("Please enter above mentioned choices only!");
-                        setProfileOptions();
+                        setCustomerProfileOptions();
                     }
                 }
             } while (choice != 0);
@@ -168,7 +169,7 @@ public class WelcomePage {
     /**
      * Enables Driver to perform their choice of action i.e. login or sign up
      */
-    void driverOptions() {
+    void displayDriverOptions() {
 
         try {
             System.out.println("Enter your choice :" + '\n' + "1.Login 2.Signup");
@@ -179,12 +180,12 @@ public class WelcomePage {
                 case 2 -> USER_PAGE.userSignUp();
                 default -> {
                     System.out.println("Please enter above mentioned choices only!");
-                    driverOptions();
+                    displayDriverOptions();
                 }
             }
         } catch (InputMismatchException exception) {
             System.out.println("Please enter above mentioned choices only!");
-            driverOptions();
+            displayDriverOptions();
         }
         displayDriverMenuOptions();
     }
@@ -193,7 +194,7 @@ public class WelcomePage {
      * Forwards to Driver's booking history page
      */
     private void setDriverBookingHistory() {
-        BOOKING_HISTORY_PAGE.iterateDriverHistory();
+        BOOKING_HISTORY_PAGE.displayDriverHistory();
     }
 
     /**
@@ -220,7 +221,7 @@ public class WelcomePage {
                 System.out.println("----------------------------------------------");
 
                 switch (choice) {
-                    case 1 -> displayDriverProfileOptions();
+                    case 1 -> setDriverProfileOptions();
                     case 2 -> setDriverBookingHistory();
                     case 3 -> setDriverTransactionPage();
                     default -> {
@@ -237,7 +238,7 @@ public class WelcomePage {
     /**
      * Displays Customer's profile choices and enables them to perform action of their choice
      */
-    private void displayDriverProfileOptions() {
+    private void setDriverProfileOptions() {
         int choice;
 
         try {
@@ -256,7 +257,7 @@ public class WelcomePage {
                     case 5 -> DRIVER_PAGE.removeDriver();
                     default -> {
                         System.out.println("Please enter above mentioned choices only!");
-                        displayDriverProfileOptions();
+                        setDriverProfileOptions();
                     }
                 }
             } while (choice != 0);

@@ -1,11 +1,6 @@
 package com.TaxiProject.controller;
 
-import com.TaxiProject.model.Booking;
-import com.TaxiProject.model.Fare;
-import com.TaxiProject.model.Service;
-import com.TaxiProject.model.Location;
-import com.TaxiProject.model.Driver;
-import com.TaxiProject.model.ServiceFare;
+import com.TaxiProject.model.*;
 import com.TaxiProject.service.Impl.AvailableServicesImpl;
 import com.TaxiProject.service.Impl.BookingServiceImpl;
 import com.TaxiProject.service.Impl.FareServiceImpl;
@@ -15,7 +10,7 @@ import com.TaxiProject.service.Impl.LocationServiceImpl;
 import java.util.List;
 
 /**
- * Acquired functions from BookingPage and BookingHistory Class being passed to respective Services
+ * Acts as a Controller, manages the data's flow from View to respective Services.
  *
  * @author Ajay
  * @version 1.0
@@ -28,67 +23,78 @@ public class BookingController {
     private static final BookingHistoryServiceImpl BOOKING_HISTORY_SERVICE_IMPL = new BookingHistoryServiceImpl();
 
     /**
-     * Effectuates insert functionality from BookingPage Class being passed to FareService
+     * <p>
+     *     Effectuates {@link Fare} inserts functionality from View to Service.
+     * </p>
      *
-     * @param fare Fare, object being wrapped
-     * @return being passed to Service
+     * @param fare {@link Fare} contains pick up, drop and location details that were wrapped.
+     * @return being passed to Service.
      */
     public long insertFareDetails(final Fare fare) {
         return FARE_SERVICE_IMPL.insertFareDetails(fare);
     }
 
     /**
-     * Effectuates getAll functionality from BookingPage Class being passed to AvailableServicesService
+     * <p>
+     *     Effectuates {@link Service} acquiring functionality from View to Service.
+     * </p>
      *
-     * @return being passed to Service
+     * @return being passed to Service.
      */
     public List<Service> getServiceInfo() {
         return AVAILABLE_SERVICES_IMPL.getServiceInfo();
     }
 
     /**
-     * Effectuates calculateFares functionality from BookingPage Class being passed to BookingService
+     * Effectuates {@link ServiceFare} calculation functionality from View to Service.
      *
-     * @param distance Distance, being wrapped
-     * @return being passed to Service
+     * @param distance {@link  Long}, Journey's distance being wrapped.
+     * @return being passed to Service.
      */
     public List<ServiceFare> calculateFares(final Double distance) {
         return BOOKING_SERVICE_IMPL.calculateFares(distance);
     }
 
     /**
-     * Effectuates getLocationInfo functionality from BookingPage Class being passed to LocationService
+     * <p>
+     *     Effectuates acquire {@link Location} functionality from View to Service.
+     * </p>
      *
-     * @return being passed to Service
+     * @return being passed to Service.
      */
     public List<Location> getLocationInfo() {
         return LOCATION_SERVICE_IMPL.getLocationInfo();
     }
 
     /**
-     * Effectuates assignDriver functionality from BookingPage Class being passed to BookingService
+     * <p>
+     *     Effectuates Driver's availability functionality from View to Service.
+     * </p>
      *
-     * @param driver Driver, object being wrapped
+     * @param serviceId {@link Long}, determines Customer's choice of Service.
+     * @param locationId {@link Long}, determines Customer's choice of Location.
      * @return being passed to Service
      */
-    public long assignDriver(final Driver driver) {
-        return  BOOKING_SERVICE_IMPL.assignDriver(driver);
+    public Driver getDriverAvailability(final Long serviceId, final Long locationId) {
+        return  BOOKING_SERVICE_IMPL.getDriverAvailability(serviceId, locationId);
     }
 
     /**
-     * Effectuates insertBooking functionality from BookingPage Class being passed to BookingService
+     * Effectuates insert {@link Booking} functionality from View to Service.
      *
-     * @param booking Booking, object being wrapped
-     * @return being passed to Service
+     * @param booking {@link Booking}, contains all related details regarding a Booking.
+     * @return being passed to Service.
      */
     public long insertBooking(final Booking booking) {
         return BOOKING_SERVICE_IMPL.insertBooking(booking);
     }
 
     /**
-     * Effectuates getCustomerHistory functionality from BookingHistoryPage Class being passed to BookingHistoryService
+     * <p>
+     *     Effectuates acquire Customer's History functionality from View to Service.
+     * </p>
      *
-     * @param customerId customerId, being wrapped
+     * @param customerId {@link Long}, critical in retrieving that ID's data.
      * @return being passed to Service
      */
     public List<Booking> getCustomerHistory(final Long customerId) {
@@ -96,20 +102,24 @@ public class BookingController {
     }
 
     /**
-     * Effectuates getDriverHistory functionality from BookingHistoryPage Class being passed to BookingHistoryService
+     * <p>
+     *     Effectuates acquire Driver's History functionality from View to Service.
+     * </p>
      *
-     * @param driverId driverId, being wrapped
-     * @return being passed to Service
+     * @param driverId {@link Long}, critical in retrieving that ID's data.
+     * @return being passed to Service.
      */
     public List<Booking> getDriverHistory(final Long driverId) {
         return BOOKING_HISTORY_SERVICE_IMPL.getDriverHistory(driverId);
     }
 
     /**
-     * Effectuates updateDriverId functionality from BookingHistoryPage Class being passed to BookingService
+     * <p>
+     *     Effectuates driver update functionality from View to Service.
+     * </p>
      *
-     * @param locationId location ID, being wrapped
-     * @return being passed to Controller
+     * @param locationId {@link Long}, critical in updating that ID's data.
+     * @return being passed to Service.
      */
     public long updateDriverId(final Long locationId) {
         return BOOKING_SERVICE_IMPL.updateDriverId(locationId);

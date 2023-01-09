@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Prompts the Driver services related queries and might project Exceptions to administer unexpected errors
@@ -25,10 +26,12 @@ public class DriverDAO {
     private static final DBConnection DB_CONNECTION = new DBConnection();
 
     /**
-     * Inserts Driver details in the respective table of our Database
+     * <p>
+     *     Inserts {@link Driver} details in the respective table of our Database.
+     * </p>
      *
-     * @param driver Driver, object being unwrapped
-     * @return driver's ID being returned
+     * @param driver {@link Driver} holds registration number, choice of Service critical in Driver's registration.
+     * @return that Driver's ID is being returned.
      */
     public long insert(final Driver driver) {
         final String driverInsertQuery =
@@ -62,9 +65,12 @@ public class DriverDAO {
     }
 
     /**
-     * Retrieves a Driver's details from the Driver table based on the ID provided in the Database
+     * <p>
+     *     Retrieves a Driver's details from the {@link Driver} table based on the ID provided in the Database,
+     * </p>
      *
-     * @return Driver details
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return that Driver's details.
      */
     public Driver get(final Long id) {
         final String driverSelectQuery = "SELECT name, mobile_number, email, registration_id, service_id from " +
@@ -90,9 +96,12 @@ public class DriverDAO {
     }
 
     /**
-     * Removes a Driver 's details from the Driver table based on the ID provided in the Database
+     * <p>
+     *     Removes a Driver's details in the Database from the {@link Driver} table based on the ID provided.
+     * </p>
      *
-     * @return whether removed or not
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return whether that {@link Driver} has been removed.
      */
     public boolean remove(final Long id) {
         final String driverRemoveQuery = "DELETE from driver where ID = ?";
@@ -107,9 +116,11 @@ public class DriverDAO {
     }
 
     /**
-     * Updates a Driver's details from the Driver table based on the ID provided in the Database
+     * <p>
+     *     Updates a Driver's details in the Database from the {@link Driver} table based on the ID provided.
+     * </p>
      *
-     * @param driver Driver, object being unwrapped
+     * @param driver {@link Driver}, holds updated information from Customer.
      * @return whether updated or not
      */
     public boolean update(final Driver driver) {
@@ -138,9 +149,12 @@ public class DriverDAO {
     }
 
     /**
-     * Retrieves all Driver details from the Driver table in the Database
+     * <p>
+     *     Retrieves every Driver details from the {@link Driver} table in the Database.
+     * </p>
      *
-     * @return List containing Driver details
+     *
+     * @return a {@link List} containing Driver details
      */
     public Collection<Driver> getAll() {
         final String driverSelectAllQuery = "SELECT driver.id, name, mobile_number, email, registration_id, service_id from " +

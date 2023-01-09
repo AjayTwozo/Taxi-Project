@@ -5,6 +5,7 @@ import com.TaxiProject.model.Booking;
 import com.TaxiProject.model.PaymentOption;
 import com.TaxiProject.model.Transaction;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -21,9 +22,10 @@ public class TransactionPage {
     private static final TransactionController TRANSACTION_CONTROLLER = new TransactionController();
 
     /**
-     * Generates random code and acts as a supplement for Transaction IDs
+     * Generates random code and acts as a supplement for Transaction ID.
      *
-     * @return Generated code
+     * @return a Generated code
+     * @see Random
      */
     private long generateCode() {
         final Random random = new Random();
@@ -32,16 +34,17 @@ public class TransactionPage {
     }
 
     /**
-     * Acquires available payment options from the database
+     * Acquires available payment options from the database.
      *
-     * @return List containing the options
+     * @return a {@link List}, containing {@link PaymentOption}.
+     * @see Collection
      */
     private List<PaymentOption> getOptions() {
         return TRANSACTION_CONTROLLER.getOptions();
     }
 
     /**
-     * Displays Customers the available payment options
+     * Displays all available payment options to the Customers.
      */
     private void showPaymentOptions() {
         final List<PaymentOption> paymentOptionList = getOptions();
@@ -53,9 +56,9 @@ public class TransactionPage {
     }
 
     /**
-     * Acquires Customer's choice of available payment options
+     * Displays and acquires Customer's choice of {@link PaymentOption}.
      *
-     * @return Customer's choice of available payment options
+     * @return the choice of the Customer.
      */
     private long getCustomerChoice() {
         showPaymentOptions();
@@ -79,29 +82,41 @@ public class TransactionPage {
     }
 
     /**
+     * <p>
+     *     Inserts {@link Transaction} both successful and failed ones.
+     * </p>
      *
-     * @param bookingId
-     * @return
+     * @param bookingId {@link Long}, determines for which {@link Booking} transaction's being recorded.
+     * @param choice {@link Long}, determines whether a booking's successful.
      */
-    long insertTransaction(final long bookingId) {
+    long insertTransaction(final long bookingId, final Long choice) {
         final Transaction transaction = new Transaction();
         final Booking booking = new Booking();
         final PaymentOption paymentOption = new PaymentOption();
 
-        booking.setId(bookingId);
-        paymentOption.setId(getCustomerChoice());
-        transaction.setPaymentOption(paymentOption);
-        transaction.setBooking(booking);
-        transaction.setPaymentAcknowledgement(true);
-        transaction.setTransactionId(generateCode());
-
+        if (choice == 1) {
+            booking.setId(bookingId);
+            paymentOption.setId(getCustomerChoice());
+            transaction.setPaymentOption(paymentOption);
+            transaction.setBooking(booking);
+            transaction.setPaymentAcknowledgement(true);
+            transaction.setTransactionId(generateCode());
+        } else if (choice == 2) {
+            booking.setId(bookingId);
+            paymentOption.setId(null);
+            transaction.setPaymentOption(null);
+            transaction.setBooking(booking);
+            transaction.setPaymentAcknowledgement(false);
+            transaction.setTransactionId(generateCode());
+        }
         return TRANSACTION_CONTROLLER.insertTransaction(transaction);
     }
 
     /**
-     * Acquires Customer's transaction history from database based on their ID
+     * Acquires Customer's transaction history from database based on their ID.
      *
-     * @return List containing Customer's transaction history
+     * @return a {@link List}, containing Customer's transaction history.
+     * @see Collection
      */
     List<Transaction> getCustomerHistory() {
         System.out.println("Please enter Customer ID : ");
@@ -111,9 +126,10 @@ public class TransactionPage {
     }
 
     /**
-     * Acquires Driver's transaction history from database based on their ID
+     * Acquires Driver's transaction history from database based on their ID.
      *
-     * @return List containing Driver's transaction history
+     * @return a a {@link List}, containing Driver's transaction history.
+     * @see Collection
      */
     List<Transaction> getDriverHistory() {
         System.out.println("Please enter Customer ID : ");

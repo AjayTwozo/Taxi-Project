@@ -6,7 +6,7 @@ import com.TaxiProject.model.Customer;
 import java.util.Collection;
 
 /**
- * Acquired functions from CustomerPage Class being passed to CustomerService
+ * Acts as a Controller, manages the data's flow from View to respective Services.
  *
  * @author Ajay
  * @version 1.0
@@ -16,38 +16,45 @@ public class CustomerController {
     private static final CustomerServiceImpl CUSTOMER_SERVICE_IMPL = new CustomerServiceImpl();
 
     /**
-     * Effectuates insert functionality from CustomerPage Class being passed to CustomerService
+     * <p>
+     *     Effectuates {@link Customer} insert functionality from view to Service.
+     * </p>
      *
-     * @param userId userId being wrapped
-     * @return being passed to Service
+     * @param userId {@link  Long}, critical in deciding which Customer's registering.
+     * @return being passed to Service.
      */
     public long insert(final Long userId) {
         return CUSTOMER_SERVICE_IMPL.insert(userId);
     }
 
     /**
-     * Effectuates getAll functionality from CustomerPage Class being passed to CustomerService
+     * <p>
+     *     Effectuates acquire every {@link Customer} details functionality from view to Service.
+     * </p>
      *
-     * @return being passed to service
+     * @return being passed to service.
      */
     public Collection<Customer> getAll() {
         return CUSTOMER_SERVICE_IMPL.getAll();
     }
 
     /**
-     * Effectuates get functionality from CustomerPage Class being passed to CustomerService
-     *
-     * @param id ID Number
-     * @return being passed to Service
+     * <p>
+     *     Effectuates acquire {@link Customer} details functionality from view to Service through their ID.
+     * </p>
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return being passed to Service.
      */
     public Customer get(final Long id) {
         return CUSTOMER_SERVICE_IMPL.get(id);
     }
 
     /**
-     * Effectuates remove functionality from CustomerPage Class being passed to CustomerService
+     * <p>
+     *     Effectuates remove {@link Customer} functionality from view to Service through their ID.
+     * </p>
      *
-     * @param id ID number
+     * @param id {@link  Long}, critical on whose details being retrieved.
      * @return being passed to the Service
      */
     public boolean remove(final Long id) {
@@ -55,9 +62,11 @@ public class CustomerController {
     }
 
     /**
-     * Effectuates update functionality from CustomerPage Class being passed to CustomerService
+     * <p>
+     *     Effectuates update {@link Customer} functionality from view to Service through their ID.
+     * </p>
      *
-     * @param customer customer's info being wrapped
+     * @param customer {@link Customer}, holds updated information from Customer.
      * @return being passed to the Service
      */
     public boolean update(final Customer customer) {

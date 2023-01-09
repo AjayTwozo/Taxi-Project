@@ -2,14 +2,19 @@ package com.TaxiProject.view;
 
 import com.TaxiProject.controller.BookingController;
 import com.TaxiProject.model.Booking;
+import com.TaxiProject.model.Customer;
+import com.TaxiProject.model.Driver;
 
 import java.util.Scanner;
 
 /**
- * Displays customers and drivers their booking history
+ * Displays customers and drivers their booking history of the Platform
  *
  * @author Ajay
  * @version 1.0
+ * @see Booking
+ * @see Customer
+ * @see Driver
  */
 public class BookingHistoryPage {
 
@@ -17,10 +22,11 @@ public class BookingHistoryPage {
     private static final BookingController BOOKING_CONTROLLER = new BookingController();
 
     /**
-     * Iterates and displays Customer's bookings based on their ID provided through Scanner
-     *
+     * <p>
+     *     Retrieves & displays Customer's booking history based on their ID
+     * </p>
      */
-    void iterateCustomerHistory() {
+    void displayCustomerHistory() {
         System.out.print("Please enter Customer ID : ");
         final long customerId = INPUT.nextLong();
 
@@ -35,9 +41,11 @@ public class BookingHistoryPage {
     }
 
     /**
-     * Iterates and displays Driver's bookings based on their ID provided through Scanner
+     * <p>
+     *     Retrieves and displays Driver's booking history based on their ID provided through Scanner
+     * </p>
      */
-    void iterateDriverHistory() {
+    void displayDriverHistory() {
         System.out.print("Please enter Driver ID : ");
         final long driverId = INPUT.nextLong();
 

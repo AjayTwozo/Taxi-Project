@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,10 +28,12 @@ public class TransactionDAO {
     private static final DBConnection DB_CONNECTION = new DBConnection();
 
     /**
-     * Inserts Transaction details in the respective table of our Database
+     * <p>
+     *     Inserts {@link Transaction} details in the respective table of our Database.
+     * </p>
      *
-     * @param transaction Transaction, object being unwrapped
-     * @return driver's ID being returned
+     * @param transaction {@link Transaction} holds booking ID, total fare and payment mode details being unwrapped.
+     * @return that {@link Transaction}'s ID is being returned
      */
     public long insertTransaction(final Transaction transaction) {
         final String insertQuery = "INSERT INTO transaction(booking_id, payment_options_id, payment_acknowledgement, " +
@@ -62,9 +65,12 @@ public class TransactionDAO {
     }
 
     /**
-     * Retrieves available Payment options from the respective table of our Database
+     * <p>
+     *     Retrieves available {@link PaymentOption} from the respective table of our Database.
+     * </p>
      *
-     * @return List containing available Payment options
+     * @return a {@link List} containing available Payment options.
+     * @see Collection
      */
     public List<PaymentOption> getOptions() {
         final List<PaymentOption> paymentOptionList = new ArrayList<>();
@@ -88,10 +94,12 @@ public class TransactionDAO {
     }
 
     /**
-     * Retrieves Customer's transaction history from the respective table of our Database
+     * <p>
+     *    Retrieves Customer's transaction history from the respective table of our Database.
+     * </p>
      *
-     * @param customerId customerId, being unwrapped
-     * @return List containing Customer's transaction history details
+     * @param customerId {@link Long}, critical on whose details being retrieved.
+     * @return a {@link List} containing Customer's transaction history details.
      */
     public List<Transaction> getCustomerHistory(final Long customerId) {
         final String selectTransactionQuery = "SELECT transactions_record.id, booking_id, driver_id, total_fare, " +
@@ -130,10 +138,12 @@ public class TransactionDAO {
     }
 
     /**
-     * Retrieves Driver's transaction history from the respective table of our Database
+     * <p>
+     *     Retrieves Driver's transaction history from the respective table of our Database.
+     * </p>
      *
-     * @param driverId driverId, being unwrapped
-     * @return List containing Driver's transaction history details
+     * @param driverId {@link Long}, critical on whose details being retrieved.
+     * @return a {@link List}, containing Driver's transaction history details.
      */
     public List<Transaction> getDriverHistory(final Long driverId) {
         final String selectTransactionQuery = "SELECT transactions_record.id, booking_id, customer_id, total_fare, " +

@@ -7,7 +7,7 @@ import com.TaxiProject.service.AvailableServicesService;
 import java.util.List;
 
 /**
- * Enforces the AvailableServices Interface class and the functionalities inside
+ * Enforces the {@link AvailableServicesService} functionalities.
  *
  * @author Ajay
  * @version 1.0
@@ -17,9 +17,11 @@ public class AvailableServicesImpl implements AvailableServicesService  {
     private static final BookingDAO BOOKING_DAO = new BookingDAO();
 
     /**
-     * Effectuates getServiceInfo functionality from BookingController Class being passed to BookingDAO Class
+     * <p>
+     *     Effectuates {@link Service} acquiring functionality to Data base.
+     * </p>
      *
-     * @return being passed to DAO
+     * @return being passed to the Database.
      */
     public List<Service> getServiceInfo() {
         return BOOKING_DAO.getServiceInfo();

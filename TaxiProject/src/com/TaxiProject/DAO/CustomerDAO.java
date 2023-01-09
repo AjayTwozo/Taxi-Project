@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Prompts the Customer services related queries and might project Exceptions to administer unexpected errors
@@ -25,10 +26,12 @@ public class CustomerDAO {
     private static final DBConnection DB_CONNECTION = new DBConnection();
 
     /**
-     * Inserts Customer details in the respective table of our Database
+     * <p>
+     *     Inserts {@link Customer} details in the respective table of our Database.
+     * </p>
      *
-     * @param userId userId, being wrapped
-     * @return customer's ID being returned
+     * @param userId {@link  Long}, critical in deciding which Customer's registering.
+     * @return that customer's ID is being returned.
      */
     public long insert(final Long userId) {
         final String customerInsertQuery = "INSERT into customer(user_id) values(?)";
@@ -56,9 +59,11 @@ public class CustomerDAO {
     }
 
     /**
-     * Retrieves a Customer's details from the Customer table based on the ID provided in the Database
+     * <p>
+     *     Retrieves a Customer's details from the {@link Customer} table based on the ID provided in the Database.
+     * </p>
      *
-     * @return Customer details
+     * @return that Customer's details.
      */
     public Customer get(final Long id) {
         final String customerSelectQuery = "SELECT name, mobile_number, email from service_user LEFT JOIN customer " +
@@ -84,9 +89,11 @@ public class CustomerDAO {
     }
 
     /**
-     * Removes a Customer's details from the Customer table based on the ID provided in the Database
+     * <p>
+     *     Removes a Customer's details from the Customer table based on the ID provided in the Database.
+     * </p>
      *
-     * @return whether removed or not
+     * @return whether that {@link Customer} has been removed.
      */
     public boolean remove(final Long id) {
         final String customerRemoveQuery = "DELETE from customer where ID = ? ";
@@ -102,10 +109,12 @@ public class CustomerDAO {
     }
 
     /**
-     * Updates a Customer's details from the Customer table based on the ID provided in the Database
+     * <p>
+     *     Updates a Customer's details from the Customer table based on the ID provided in the Database.
+     * </p>
      *
-     * @param customer Customer, object being unwrapped
-     * @return whether updated or not
+     * @param customer {@link Customer}, holds updated information from Customer.
+     * @return whether that {@link Customer} has been updated.
      */
     public boolean update(final Customer customer) {
         final String customerUpdateQuery =
@@ -126,9 +135,11 @@ public class CustomerDAO {
     }
 
     /**
-     * Retrieves all Customer details from the Customer table in the Database
+     * <p>
+     *     Retrieves all Customer details from the Customer table in the Database.
+     * </p>
      *
-     * @return List containing Customer details
+     * @return a {@link List} containing Customer details
      */
     public Collection<Customer> getAll() {
         final String customerSelectQuery = "SELECT customer.id, name, mobile_number, email from service_user LEFT JOIN customer " +

@@ -23,10 +23,12 @@ public class BookingDAO {
     private static final DBConnection DB_CONNECTION = new DBConnection();
 
     /**
-     * Inserts Fare details in the respective table of our Database
+     * <p>
+     *     Inserts {@link Fare} in the respective table of our Database.
+     * </p>
      *
-     * @param fare Fare, object being wrapped
-     * @return fare Id being returned
+     * @param fare {@link Fare} contains pick up, drop and location details that are unwrapped here.
+     * @return that Fare's ID is being returned.
      */
     public long insertFareDetails(final Fare fare) {
         final String fareInsertionQuery =
@@ -45,11 +47,7 @@ public class BookingDAO {
                 final ResultSet resultSet = statement.executeQuery(fareIdSelectionQuery);
 
                 if (resultSet.next()) {
-                    final long id = resultSet.getLong(1);
-
-                    fare.setId(id);
-
-                    return id;
+                    return resultSet.getLong(1);
                 }
             }
             return 0;
@@ -60,9 +58,11 @@ public class BookingDAO {
     }
 
     /**
-     * Retrieves Service details from the respective table of our Database
+     * <p>
+     *     Retrieves {@link Service} details from the respective table in our Database.
+     * </p>
      *
-     * @return List containing Service details
+     * @return a {@link List}, containing {@link Service} details.
      */
     public List<Service> getServiceInfo() {
         final List<Service> serviceList = new ArrayList<>();
@@ -87,23 +87,25 @@ public class BookingDAO {
     }
 
     /**
-     * Assigns a driver from the respective table of our Database
+     * Assigns a {@link Driver} from the respective table of our Database.
      *
-     * @param driver Driver, object being wrapped
-     * @return fare Id being returned
+     * @param serviceId {@link Long}, determines Customer's choice of Service.
+     * @param locationId {@link Long}, determines Customer's choice of Location.
+     * @return a Driver's ID being returned
      */
-    public long assignDriver(final Driver driver) {
+    public Driver getDriverAvailability(final Long serviceId, final Long locationId) {
         final String selectDriverQuery = "SELECT driver.id, name, mobile_number, email, registration_number FROM driver " +
                 "FULL JOIN service_user ON driver.id != service_user.id WHERE location_id = ? and service_id = ?";
 
         try (Connection connection = DB_CONNECTION.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectDriverQuery)) {
-            preparedStatement.setLong(1, driver.getLocation().getId());
-            preparedStatement.setLong(2, driver.getService().getId());
+            preparedStatement.setLong(1, locationId);
+            preparedStatement.setLong(2, serviceId);
             final ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 final long id = resultSet.getLong(1);
+                final Driver driver = new Driver();
 
                 driver.setName(resultSet.getString("name"));
                 driver.setMobileNumber(resultSet.getString("mobile_number"));
@@ -111,9 +113,9 @@ public class BookingDAO {
                 driver.setRegistrationNumber(resultSet.getString("registration_number"));
                 driver.setId(id);
 
-                return id;
+                return driver;
             }
-            return 0;
+            return null;
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new CustomException("Failed to register info!");
@@ -121,9 +123,11 @@ public class BookingDAO {
     }
 
     /**
-     * Retrieves Location details from the respective table of our Database
+     * <p>
+     *     Retrieves {@link Location} details from the respective table of our Database
+     * </p>
      *
-     * @return List containing Location details
+     * @return a {@link List} containing {@link Location} details
      */
     public List<Location> getZoneInfo() {
         final String selectLocationQuery = "Select * from Location";
@@ -147,10 +151,12 @@ public class BookingDAO {
     }
 
     /**
-     * Inserts Booking details in the respective table of our Database
+     * <p>
+     *     Inserts {@link Booking} details in the respective table of our Database.
+     * </p>
      *
      * @param booking Booking, object being wrapped
-     * @return fare Id being returned
+     * @return that Booking's ID is being returned.
      */
     public long insertBooking(final Booking booking) {
         final String insertQuery = "INSERT into booking (fare_id, driver_id, total_fare) VALUES (?, ?, ?)";
@@ -180,10 +186,12 @@ public class BookingDAO {
     }
 
     /**
-     * Updates driver's location in the Driver table once the Journey ends
+     * <p>
+     *     Updates driver's location in the respective table once the Journey ends.
+     * </p>
      *
-     * @param locationId location ID, being unwrapped
-     * @return driver's updated location ID
+     * @param locationId {@link Long}, drop Location being updated as Driver's current Location.
+     * @return that driver's updated location ID.
      */
     public long updateDriverId(final Long locationId) {
         final String updateLocationQuery = "update driver set location_id = ?";

@@ -7,7 +7,7 @@ import com.TaxiProject.service.BookingHistoryService;
 import java.util.List;
 
 /**
- * Enforces the BookingHistoryService Interface class and the functionalities inside
+ * Enforces the {@link BookingHistoryService} functionalities.
  *
  * @author Ajay
  * @version 1.0
@@ -17,20 +17,24 @@ public class BookingHistoryServiceImpl implements BookingHistoryService {
     private static final BookingHistoryDAO BOOKING_HISTORY_DAO = new BookingHistoryDAO();
 
     /**
-     * Effectuates getCustomerHistory functionality from BookingController Class being passed to BookingHistoryDAO Class
+     * <p>
+     *     Effectuates acquire Customer's History functionality to the Database.
+     * </p>
      *
-     * @param customerId customerId, being wrapped
-     * @return being passed to DAO
+     * @param customerId {@link Long}, critical in retrieving that ID's data.
+     * @return being passed to the Database.
      */
     public List<Booking> getCustomerHistory(final Long customerId) {
         return BOOKING_HISTORY_DAO.getCustomerHistory(customerId);
     }
 
     /**
-     * Effectuates getDriverHistory functionality from BookingController Class being passed to BookingHistoryDAO Class
+     * <p>
+     *     Effectuates acquire Driver's History functionality to the Data base.
+     * </p>
      *
-     * @param driverId driverId, being wrapped
-     * @return being passed to DAO
+     * @param driverId {@link Long}, critical in retrieving that ID's data.
+     * @return being passed to the Database.
      */
     public List<Booking> getDriverHistory(final Long driverId) {
         return BOOKING_HISTORY_DAO.getDriverHistory(driverId);

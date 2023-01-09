@@ -7,7 +7,7 @@ import com.TaxiProject.service.PaymentOptionsService;
 import java.util.List;
 
 /**
- * Enforces the PaymentOptionsService Interface class and the functionalities inside
+ * Enforces the {@link PaymentOptionsService} functionalities.
  *
  * @author Ajay
  * @version 1.0
@@ -17,9 +17,11 @@ public class PaymentOptionsImpl implements PaymentOptionsService {
     private static final TransactionDAO PAYMENT_DAO = new TransactionDAO();
 
     /**
-     * Effectuates getOptions functionality from BookingController Class being passed to BookingDAO Class
+     * <p>
+     *     Effectuates acquire available payment options functionality to the Database.
+     * </p>
      *
-     * @return being passed to DAO
+     * @return being passed to the Database.
      */
     public List<PaymentOption> getOptions() {
         return PAYMENT_DAO.getOptions();

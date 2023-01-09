@@ -20,9 +20,11 @@ public class BookingHistoryDAO {
     private static final DBConnection DB_CONNECTION = new DBConnection();
 
     /**
-     * Retrieves Customer's booking history from the respective table of our Database
+     * <p>
+     *     Retrieves Customer's booking history from the respective table of our Database.
+     * </p>
      *
-     * @return List containing Customer's booking history details
+     * @return a {@link List}, containing Customer's booking history details.
      */
     public List<Booking> getCustomerHistory(final Long customerId) {
         final String selectBookingQuery = "SELECT booking.id, driver_id, pickup_location_id, drop_location_id, " +
@@ -62,9 +64,11 @@ public class BookingHistoryDAO {
     }
 
     /**
-     * Retrieves Driver's booking history from the respective table of our Database
+     * <p>
+     *     Retrieves Driver's booking history from the respective table of our Database.
+     * </p>
      *
-     * @return List containing Customer's booking history details
+     * @return a {@link List} containing Customer's booking history details.
      */
     public List<Booking> getDriverHistory(final Long driverId) {
         final String selectBookingQuery = "SELECT booking.id, customer_id, pickup_location_id, drop_location_id, " +

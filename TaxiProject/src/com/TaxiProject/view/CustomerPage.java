@@ -2,12 +2,15 @@ package com.TaxiProject.view;
 
 import com.TaxiProject.controller.CustomerController;
 import com.TaxiProject.model.Customer;
+import com.TaxiProject.model.User;
 
+import java.io.PrintStream;
 import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 /**
- * Displays all pertaining things to the Customer service for Customers
+ * Displays all pertaining things to the {@link Customer's} functionalities to the {@link Customer}
  *
  * @author Ajay
  * @version 1.0
@@ -19,11 +22,14 @@ public class CustomerPage {
     private static final Scanner INPUT = new Scanner(System.in);
 
     /**
-     * Inserts Customer and passes it to the Controller
+     * <p>
+     *     Registers a {@link Customer} based on their User ID.
+     * </p>
      *
-     * @return Customer's id
+     * @return that Customer's id, being displayed upon successful insertion.
+     * @see User
      */
-    long insertCustomer() {
+    long registerCustomer() {
         System.out.print("Please enter User ID : ");
         final long userId = INPUT.nextLong();
         final long id = CUSTOMER_CONTROLLER.insert(userId);
@@ -34,9 +40,11 @@ public class CustomerPage {
     }
 
     /**
-     * Acquires Customer's info from database based on their ID
+     * <p>
+     *     Acquires and displays {@link Customer}'s info from database based on their ID.
+     * </p>
      *
-     * @return Customer's info
+     * @return a {@link Customer}, containing all the details.
      */
     Customer getCustomer() {
         System.out.println("Enter ID Number : ");
@@ -55,9 +63,12 @@ public class CustomerPage {
     }
 
     /**
-     * Acquires every Customer's info from database
+     * <p>
+     *     Acquires every Customer's info from database and displays the details.
+     * </p>
      *
-     * @return List containing Customer's info
+     * @return a {@link List} containing Customers info.
+     * @see Collection
      */
     Collection<Customer> getAllCustomer() {
         final Collection<Customer> customerControllerGet = CUSTOMER_CONTROLLER.getAll();
@@ -72,9 +83,10 @@ public class CustomerPage {
     }
 
     /**
-     * Removes Customer's info from database based on their ID
-     *
-     * @return whether removed successfully
+     * <p>
+     * Removes Customer's info from the database based on their ID.
+     * </p>
+     * @return whether removed successfully, based on the results prints a message.
      */
     boolean removeCustomer() {
         System.out.println("Enter ID Number : ");
@@ -89,9 +101,11 @@ public class CustomerPage {
     }
 
     /**
-     * Updates Customer's info from database based on their ID
+     * <p>
+     *     Updates Customer's info based on their ID.
+     * </p>
      *
-     * @return whether updated successfully
+     * @return whether updated successfully, based on the results prints a message.
      */
     boolean updateCustomer() {
         System.out.println("Enter ID Number : ");

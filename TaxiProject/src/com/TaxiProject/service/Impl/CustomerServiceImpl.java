@@ -7,7 +7,7 @@ import com.TaxiProject.model.Customer;
 import java.util.Collection;
 
 /**
- * Enforces the CustomerService Interface class and the functionalities inside
+ * Enforces the {@link CustomerService} functionalities.
  *
  * @author Ajay
  * @version 1.0
@@ -17,50 +17,59 @@ public class CustomerServiceImpl implements CustomerService {
     private static final CustomerDAO CUSTOMER_DAO = new CustomerDAO();
 
     /**
-     * Effectuates insert functionality from CustomerController Class being passed to CustomerDAO Class
+     * <p>
+     *     Effectuates {@link Customer} insert functionality to the Database.
+     * </p>
      *
-     * @param userId userId, being wrapped
-     * @return being passed to DAO
+     * @param userId {@link  Long}, critical in deciding which Customer's registering.
+     * @return being to the Database.
      */
     public long insert(final Long userId) {
         return CUSTOMER_DAO.insert(userId);
     }
 
     /**
-     * Effectuates getAll functionality from CustomerController Class being passed to CustomerDAO Class
+     * <p>
+     *     Effectuates acquire every {@link Customer} details functionality to the Database.
+     * </p>
      *
-     * @return being passed to DAO
+     * @return being passed to the Database.
      */
     public Collection<Customer> getAll() {
         return CUSTOMER_DAO.getAll();
     }
 
     /**
-     * Effectuates get functionality from CustomerController Class being passed to CustomerDAO Class
-     *
-     * @param idNumber idNumber, being wrapped
-     * @return being passed to DAO
+     * <p>
+     *     Effectuates acquire {@link Customer} details functionality to the Database.
+     * </p>
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return being passed to the Database.
      */
-    public Customer get(final Long idNumber) {
-        return CUSTOMER_DAO.get(idNumber);
+    public Customer get(final Long id) {
+        return CUSTOMER_DAO.get(id);
     }
 
     /**
-     * Effectuates remove functionality from CustomerController Class being passed to CustomerDAO Class
+     * <p>
+     *     Effectuates remove {@link Customer} functionality to the Database.
+     * </p>
      *
-     * @param idNumber idNumber, being wrapped
-     * @return being passed to DAO
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return being passed to the Database.
      */
-    public boolean remove(final Long idNumber) {
-        return CUSTOMER_DAO.remove(idNumber);
+    public boolean remove(final Long id) {
+        return CUSTOMER_DAO.remove(id);
     }
 
     /**
-     * Effectuates update functionality from CustomerController Class being passed to CustomerDAO Class
-     * If null, acquires existing value from Get functionality
+     * <p>
+     *     Effectuates update {@link Customer} functionality to the Database.
+     *     If null, acquires existing value from Get functionality.
+     * </p>
      *
-     * @param customer Customer, object being wrapped
-     * @return being passed to DAO
+     * @param customer {@link Customer}, holds updated information from Customer.
+     * @return being passed to the Database.
      */
     public boolean update(final Customer customer) {
         final Customer serviceImplCustomer = get(customer.getId());

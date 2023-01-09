@@ -7,7 +7,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 /**
- * Acquires inputs from platform users using Scanner and only returns whence validated
+ * Acquires inputs from platform users undergoes the process of validation.
+ *
+ * @author Ajay
+ * @version 1.0
+ * @see UserInputs
  */
 public class UserInputs {
 
@@ -16,9 +20,9 @@ public class UserInputs {
     private String password;
 
     /**
-     * Enables user to enter their name
+     * Enables users to enter their name.
      *
-     * @return name of the user
+     * @return a name of the user.
      */
     String getName() {
         System.out.print("Type your Name : ");
@@ -33,9 +37,9 @@ public class UserInputs {
     }
 
     /**
-     * Enables user to enter their mobile number
+     * Enables users to enter their mobile number.
      *
-     * @return mobile number of the user
+     * @return a mobile number of the user.
      */
     String getMobileNumber() {
         System.out.print("Type your MobileNo : ");
@@ -50,9 +54,9 @@ public class UserInputs {
     }
 
     /**
-     * Enables user to enter their email
+     * Enables users to enter their email.
      *
-     * @return email of the user
+     * @return an email of the user.
      */
     String getEmailId() {
         System.out.print("Type your Email ID : ");
@@ -62,9 +66,9 @@ public class UserInputs {
     }
 
     /**
-     * Enables user to enter their password and which is then stored in a decrypted format
+     * Enables users to enter their password and which is then stored in a decrypted format.
      *
-     * @return password of the user in decrypted format
+     * @return a password of the user in decrypted format.
      */
     String getPassword() {
         System.out.print("Type your password : ");
@@ -87,7 +91,6 @@ public class UserInputs {
                 stringBuilder.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
             encryptedPassword = stringBuilder.toString();
-            //System.out.println(encryptedPassword);
         } catch (NoSuchAlgorithmException exception) {
             exception.printStackTrace();
         }
@@ -95,9 +98,9 @@ public class UserInputs {
     }
 
     /**
-     * Enables user to enter their input. Only if, matches with password entered input's validated
+     * Enables users to enter their input. Only if, matches with password entered input's validated
      *
-     * @return confirmed password of the user
+     * @return a confirmed password of the user
      */
     String getConfirmPassword() {
         System.out.print("Confirm Password : ");
