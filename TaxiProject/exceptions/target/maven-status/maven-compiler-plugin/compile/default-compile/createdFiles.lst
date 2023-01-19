@@ -1,0 +1,8 @@
+com\sanmedia\twozo\exceptions\SelectionFailedException.class
+com\sanmedia\twozo\exceptions\UpdateFailedException.class
+com\sanmedia\twozo\exceptions\InvalidFareDetailsException.class
+com\sanmedia\twozo\exceptions\SignUpFailedException.class
+com\sanmedia\twozo\exceptions\LoginFailedException.class
+com\sanmedia\twozo\exceptions\InsertionFailedException.class
+com\sanmedia\twozo\exceptions\CustomException.class
+com\sanmedia\twozo\exceptions\RemovalFailedException.class

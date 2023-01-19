@@ -1,0 +1,184 @@
+package com.sanmedia.twozo.user.DAO;
+
+import com.sanmedia.twozo.exceptions.InsertionFailedException;
+import com.sanmedia.twozo.exceptions.RemovalFailedException;
+import com.sanmedia.twozo.exceptions.SelectionFailedException;
+import com.sanmedia.twozo.exceptions.UpdateFailedException;
+import com.sanmedia.twozo.exceptions.CustomException;
+import com.sanmedia.twozo.dbConnection.DBConnection;
+import com.sanmedia.twozo.user.model.Driver;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * Prompts the Driver services related queries and might project Exceptions to administer unexpected errors
+ *
+ * @author Ajay
+ * @version 1.0
+ */
+public class DriverDAO {
+
+    private static final DBConnection DB_CONNECTION = new DBConnection();
+
+    /**
+     * <p>
+     *     Inserts {@link Driver} details in the respective table of our Database.
+     * </p>
+     *
+     * @param driver {@link Driver} holds registration number, choice of Service critical in Driver's registration.
+     * @return that Driver's ID is being returned.
+     */
+    public long insert(final Driver driver) {
+        final String driverInsertQuery =
+                "INSERT into com.TaxiProject.driver(user_id, service_id, registration_number, location_id, availability) " +
+                        "values(?, ?, ?, ?, ?)";
+
+        try (Connection connection = DB_CONNECTION.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(driverInsertQuery)) {
+            preparedStatement.setLong(1, driver.getId());
+            preparedStatement.setLong(2, driver.getService().getId());
+            preparedStatement.setString(3, driver.getRegistrationNumber());
+            preparedStatement.setLong(4, driver.getLocation().getId());
+            preparedStatement.setBoolean(5, driver.getAvailability());
+
+            if (preparedStatement.executeUpdate() > 0) {
+                final String driverIdQuery = "SELECT id FROM com.TaxiProject.driver ORDER BY id DESC LIMIT 1";
+
+                try (Statement statement = connection.createStatement()) {
+                    final ResultSet resultSet = statement.executeQuery(driverIdQuery);
+
+                    if (resultSet.next()) {
+                        return resultSet.getLong(1);
+                    }
+                }
+            }
+            return 0;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new InsertionFailedException("Insertion failed!");
+        }
+    }
+
+    /**
+     * <p>
+     *     Retrieves a Driver's details from the {@link Driver} table based on the ID provided in the Database,
+     * </p>
+     *
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return that Driver's details.
+     */
+    public Driver get(final Long id) {
+        final String driverSelectQuery = "SELECT name, mobile_number, email, registration_id, service_id from " +
+                "service_user LEFT JOIN com.TaxiProject.driver ON service_user.id = user_id WHERE com.TaxiProject.driver.id = ?";
+
+        try (Connection connection = DB_CONNECTION.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(driverSelectQuery)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            final Driver driver = new Driver();
+
+            while (resultSet.next()) {
+                driver.setName(resultSet.getString("name"));
+                driver.setMobileNumber(resultSet.getString("mobile_number"));
+                driver.setEmailId(resultSet.getString("emailId"));
+                driver.setRegistrationNumber(resultSet.getString("registration_number"));
+            }
+            return driver;
+        } catch (Exception exception) {
+            throw new SelectionFailedException("Failed to retrieve com.TaxiProject.driver's info!");
+        }
+    }
+
+    /**
+     * <p>
+     *     Removes a Driver's details in the Database from the {@link Driver} table based on the ID provided.
+     * </p>
+     *
+     * @param id {@link  Long}, critical on whose details being retrieved.
+     * @return whether that {@link Driver} has been removed.
+     */
+    public boolean remove(final Long id) {
+        final String driverRemoveQuery = "DELETE from com.TaxiProject.driver where ID = ?";
+
+        try (Connection connection = DB_CONNECTION.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(driverRemoveQuery)) {
+            preparedStatement.setLong(1, id);
+            return preparedStatement.execute();
+        } catch (Exception exception) {
+            throw new RemovalFailedException("Failed to remove com.TaxiProject.driver's info!");
+        }
+    }
+
+    /**
+     * <p>
+     *     Updates a Driver's details in the Database from the {@link Driver} table based on the ID provided.
+     * </p>
+     *
+     * @param driver {@link Driver}, holds updated information from Customer.
+     * @return whether updated or not
+     */
+    public boolean update(final Driver driver) {
+        final String driverUpdateQuery =
+                "UPDATE com.TaxiProject.driver set name = ?, set password = ?, mobile_number = ?, emailId = ?, " +
+                        "registration_number = ? where ID = ?";
+
+        try (Connection connection = DB_CONNECTION.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(driverUpdateQuery)) {
+            preparedStatement.setLong(6, driver.getId());
+
+            if (preparedStatement.executeUpdate() > 0) {
+                preparedStatement.setString(1, driver.getName());
+                preparedStatement.setString(2, driver.getPassword());
+                preparedStatement.setString(3, driver.getMobileNumber());
+                preparedStatement.setString(4, driver.getEmailId());
+                preparedStatement.setString(5, driver.getRegistrationNumber());
+
+                return preparedStatement.execute();
+            } else {
+                throw new UpdateFailedException("Failed to update com.TaxiProject.driver's info!");
+            }
+        } catch (Exception exception) {
+            throw new UpdateFailedException("Failed to update com.TaxiProject.driver's info!");
+        }
+    }
+
+    /**
+     * <p>
+     *     Retrieves every Driver details from the {@link Driver} table in the Database.
+     * </p>
+     *
+     *
+     * @return a {@link List} containing Driver details
+     */
+    public Collection<Driver> getAll() {
+        final String driverSelectAllQuery = "SELECT com.TaxiProject.driver.id, name, mobile_number, email, registration_id, service_id from " +
+                "service_user LEFT JOIN com.TaxiProject.driver ON service_user.id = user_id";
+        final Collection<Driver> driversList = new ArrayList<>();
+
+        try (Connection connection = DB_CONNECTION.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(driverSelectAllQuery)) {
+            final ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                final Driver driver = new Driver();
+
+                driver.setId(resultSet.getLong(1));
+                driver.setName(resultSet.getString("name"));
+                driver.setMobileNumber(resultSet.getString("mobile_number"));
+                driver.setEmailId(resultSet.getString("emailId"));
+                driver.setRegistrationNumber(resultSet.getString("registration_number"));
+                driversList.add(driver);
+            }
+            return driversList;
+        } catch (Exception exception) {
+            throw new CustomException("Unable to retrieve info!");
+        }
+    }
+}
